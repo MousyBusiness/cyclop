@@ -61,10 +61,11 @@ class OpacitySlider extends StatelessWidget {
                       color: theme.inputDecorationTheme.fillColor,
                       borderRadius: defaultBorderRadius,
                     ),
-                    width: 60,
+                    width: 64,
                     child: Text(
                       '${(opacity * 100).toInt()}%',
                       textAlign: TextAlign.center,
+                      maxLines: 1,
                       style: textTheme.bodyLarge,
                     ),
                   )

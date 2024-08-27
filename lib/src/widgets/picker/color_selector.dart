@@ -26,9 +26,23 @@ class ColorSelector extends StatelessWidget {
     required this.focus,
     this.onEyePick,
     this.withAlpha = false,
-    this.thumbWidth = 96,
+    this.thumbWidth = 36,
     Key? key,
   }) : super(key: key);
+
+  Widget _buildColorThumb() => Material(
+        color: Colors.white,
+        elevation: 3,
+        borderRadius: defaultBorderRadius,
+        child: Container(
+          width: thumbWidth,
+          height: 36,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: defaultBorderRadius,
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -53,18 +67,4 @@ class ColorSelector extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildColorThumb() => Material(
-        color: Colors.white,
-        elevation: 3,
-        borderRadius: defaultBorderRadius,
-        child: Container(
-          width: thumbWidth,
-          height: 36,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: defaultBorderRadius,
-          ),
-        ),
-      );
 }

@@ -75,10 +75,11 @@ class ChannelSlider extends StatelessWidget {
                   color: theme.inputDecorationTheme.fillColor,
                   borderRadius: defaultBorderRadius,
                 ),
-                width: 60,
+                width: 64,
                 child: Text(
                   labelGetter(selectedColor),
                   textAlign: TextAlign.center,
+                  maxLines: 1,
                   style: textTheme.bodyLarge,
                 ),
               )

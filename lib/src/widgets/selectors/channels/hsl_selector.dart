@@ -27,6 +27,42 @@ class ChannelSlidersState extends State<ChannelSliders> {
 
   Color get color => widget.selectedColor;
 
+
+  Column _buildRGBSliders() => Column(
+    children: [
+      ChannelSlider(
+        label: Labels.red,
+        selectedColor: color,
+        colors: [color.withRed(0), color.withRed(255)],
+        channelValueGetter: (color) => color.red / 255,
+        labelGetter: (color) => '${color.red}',
+        onChange: (value) => widget.onChange(
+          color.withRed((value * 255).toInt()),
+        ),
+      ),
+      ChannelSlider(
+        label: Labels.green,
+        selectedColor: color,
+        colors: [color.withGreen(0), color.withGreen(255)],
+        channelValueGetter: (color) => color.green / 255,
+        labelGetter: (color) => '${color.green}',
+        onChange: (value) => widget.onChange(
+          color.withGreen((value * 255).toInt()),
+        ),
+      ),
+      ChannelSlider(
+        label: Labels.blue,
+        selectedColor: color,
+        colors: [color.withBlue(0), color.withBlue(255)],
+        channelValueGetter: (color) => color.blue / 255,
+        labelGetter: (color) => '${color.blue}',
+        onChange: (value) => widget.onChange(
+          color.withBlue((value * 255).toInt()),
+        ),
+      ),
+    ],
+  );
+
   @override
   Widget build(BuildContext context) => Tabs(
         labels: const ['HSL', 'RGB'],
@@ -36,38 +72,4 @@ class ChannelSlidersState extends State<ChannelSliders> {
         ],
       );
 
-  Column _buildRGBSliders() => Column(
-        children: [
-          ChannelSlider(
-            label: Labels.red,
-            selectedColor: color,
-            colors: [color.withRed(0), color.withRed(255)],
-            channelValueGetter: (color) => color.red / 255,
-            labelGetter: (color) => '${color.red}',
-            onChange: (value) => widget.onChange(
-              color.withRed((value * 255).toInt()),
-            ),
-          ),
-          ChannelSlider(
-            label: Labels.green,
-            selectedColor: color,
-            colors: [color.withGreen(0), color.withGreen(255)],
-            channelValueGetter: (color) => color.green / 255,
-            labelGetter: (color) => '${color.green}',
-            onChange: (value) => widget.onChange(
-              color.withGreen((value * 255).toInt()),
-            ),
-          ),
-          ChannelSlider(
-            label: Labels.blue,
-            selectedColor: color,
-            colors: [color.withBlue(0), color.withBlue(255)],
-            channelValueGetter: (color) => color.blue / 255,
-            labelGetter: (color) => '${color.blue}',
-            onChange: (value) => widget.onChange(
-              color.withBlue((value * 255).toInt()),
-            ),
-          ),
-        ],
-      );
 }

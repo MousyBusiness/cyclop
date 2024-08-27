@@ -58,9 +58,11 @@ class ColorPicker extends StatefulWidget {
     this.onSwatchesUpdate,
     this.swatches = const {},
     this.darkMode = false,
+    this.size = pickerSize,
     Key? key,
   }) : super(key: key);
 
+  final Size size;
   @override
   ColorPickerState createState() => ColorPickerState();
 }
@@ -110,68 +112,57 @@ class ColorPickerState extends State<ColorPicker> {
       child: Builder(
         builder: (context) {
           final theme = Theme.of(context);
-          return Container(
-            constraints: BoxConstraints.loose(pickerSize),
-            decoration: BoxDecoration(
-              color: theme.scaffoldBackgroundColor,
-              borderRadius: BorderRadius.circular(defaultRadius),
-              boxShadow: largeDarkShadowBox,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  MainTitle(onClose: widget.onClose),
-                  Flexible(
-                    fit: FlexFit.loose,
-                    child: Tabs(
-                      labels: [
-                        'Material',
-                        'Sliders',
-                        if (widget.config.enableLibrary) 'Library'
-                      ],
-                      views: [
-                        GridColorSelector(
-                          selectedColor: selectedColor,
-                          onColorSelected: onColorChanged,
-                        ),
-                        ChannelSliders(
-                          selectedColor: selectedColor,
-                          onChange: onColorChanged,
-                        ),
-                        if (widget.config.enableLibrary)
-                          SwatchLibrary(
-                            colors: widget.swatches,
-                            currentColor: selectedColor,
-                            onSwatchesUpdate: widget.onSwatchesUpdate,
-                            onColorSelected: onColorChanged,
-                          ),
-                      ],
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              MainTitle(onClose: widget.onClose),
+              Expanded(
+                child: Tabs(
+                  labels: [
+                    'Material',
+                    'Sliders',
+                    if (widget.config.enableLibrary) 'Library'
+                  ],
+                  views: [
+                    GridColorSelector(
+                      selectedColor: selectedColor,
+                      onColorSelected: onColorChanged,
                     ),
-                  ),
-                  if (widget.config.enableOpacity)
-                    RepaintBoundary(
-                      child: OpacitySlider(
-                        selectedColor: selectedColor,
-                        opacity: selectedColor.opacity,
-                        onChange: _onOpacityChange,
+                    ChannelSliders(
+                      selectedColor: selectedColor,
+                      onChange: onColorChanged,
+                    ),
+                    if (widget.config.enableLibrary)
+                      SwatchLibrary(
+                        colors: widget.swatches,
+                        currentColor: selectedColor,
+                        onSwatchesUpdate: widget.onSwatchesUpdate,
+                        onColorSelected: onColorChanged,
                       ),
-                    ),
-                  defaultDivider,
-                  ColorSelector(
-                    color: selectedColor,
-                    withAlpha: widget.config.enableOpacity,
-                    thumbWidth: 96,
-                    onColorChanged: widget.onColorSelected,
-                    onEyePick: widget.config.enableEyePicker
-                        ? widget.onEyeDropper
-                        : null,
-                    focus: hexFieldFocus,
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+              if (widget.config.enableOpacity)
+                RepaintBoundary(
+                  child: OpacitySlider(
+                    selectedColor: selectedColor,
+                    opacity: selectedColor.opacity,
+                    onChange: _onOpacityChange,
+                  ),
+                ),
+              defaultDivider,
+              ColorSelector(
+                color: selectedColor,
+                withAlpha: widget.config.enableOpacity,
+                thumbWidth: 96,
+                onColorChanged: widget.onColorSelected,
+                onEyePick: widget.config.enableEyePicker
+                    ? widget.onEyeDropper
+                    : null,
+                focus: hexFieldFocus,
+              ),
+            ],
           );
         },
       ),

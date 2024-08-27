@@ -48,18 +48,19 @@ class TabsState extends State<Tabs> {
     selectedIndex = widget.selectedIndex;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildTabs(theme, size),
-        Flexible(fit: FlexFit.loose, child: widget.views[selectedIndex])
-      ],
-    );
-  }
+
+  void _onSelectionChanged(int newIndex) =>
+      setState(() => selectedIndex = newIndex);
+
+  Widget _buildTab(IndexedValue<String> label, {required double height}) =>
+      SizedBox(
+        width: _kTabWidth,
+        height: height,
+        child: TextButton(
+          onPressed: () => _onSelectionChanged(label.index),
+          child: Text(label.value),
+        ),
+      );
 
   Container _buildTabs(ThemeData theme, Size size) {
     return Container(
@@ -100,16 +101,18 @@ class TabsState extends State<Tabs> {
     );
   }
 
-  void _onSelectionChanged(int newIndex) =>
-      setState(() => selectedIndex = newIndex);
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildTabs(theme, size),
+        Flexible(fit: FlexFit.loose, child: widget.views[selectedIndex])
+      ],
+    );
+  }
 
-  Widget _buildTab(IndexedValue<String> label, {required double height}) =>
-      SizedBox(
-        width: _kTabWidth,
-        height: height,
-        child: TextButton(
-          onPressed: () => _onSelectionChanged(label.index),
-          child: Text(label.value),
-        ),
-      );
+
 }

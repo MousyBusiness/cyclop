@@ -1,3 +1,5 @@
+import 'package:basics/string_basics.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -25,7 +27,7 @@ class HexColorField extends StatefulWidget {
 }
 
 class HexColorFieldState extends State<HexColorField> {
-  static const _width = 106.0;
+  static const _width = 112.0;
 
   late Color color;
 
@@ -44,7 +46,7 @@ class HexColorFieldState extends State<HexColorField> {
 
     final colorHexValue =
         widget.withAlpha ? widget.color.hexARGB : widget.color.hexRGB;
-    _controller = TextEditingController(text: colorHexValue);
+    _controller = TextEditingController(text: colorHexValue.toUpperCase());
   }
 
   @override
@@ -53,7 +55,7 @@ class HexColorFieldState extends State<HexColorField> {
     if (oldWidget.color != widget.color) {
       final colorHexValue =
           widget.withAlpha ? widget.color.hexARGB : widget.color.hexRGB;
-      _controller.text = colorHexValue;
+      _controller.text = colorHexValue.toUpperCase();
 
       if (widget.hexFocus.hasFocus) widget.hexFocus.nextFocus();
     }
@@ -79,11 +81,19 @@ class HexColorFieldState extends State<HexColorField> {
           style: textTheme.bodyLarge?.copyWith(fontSize: 15),
           maxLines: 1,
           autocorrect: false,
-          enableInteractiveSelection: false,
+          enableInteractiveSelection: true,
           enableSuggestions: false,
+          selectionControls: CupertinoTextSelectionControls(),
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp('[A-Fa-f0-9]')),
           ],
+          textCapitalization: TextCapitalization.characters,
+          onTapAlwaysCalled: true,
+          onTap: () {
+          },
+          onChanged: (v){
+            _controller.text = v.toUpperCase();
+          },
           maxLength: valueLength,
           onSubmitted: (value) => widget.onColorChanged(
             value.padRight(valueLength, '0').toColor(argb: widget.withAlpha),
@@ -91,6 +101,8 @@ class HexColorFieldState extends State<HexColorField> {
           decoration: InputDecoration(
             prefixText: prefix,
             counterText: '',
+            prefixStyle: TextStyle(color: Colors.white),
+
           ),
         ),
       ),
